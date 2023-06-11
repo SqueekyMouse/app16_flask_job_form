@@ -1,6 +1,21 @@
 from flask import Flask,render_template, request
+from flask_sqlalchemy import SQLAlchemy # sql/sqlite but interacts with flask!!!
+
 
 app=Flask(__name__)
+
+app.config['SECRET_KEY']='myapplication123'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///data.db' #db path!!
+db=SQLAlchemy(app)
+
+# create a db model!!!
+class Form(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    first_name=db.Column(db.String(80))
+    last_name=db.Column(db.String(80))
+    email=db.Column(db.String(80))
+    date=db.Column(db.Date)
+    occupation=db.Column(db.String(80))
 
 @app.route("/", methods=['GET','POST']) #url to handle get and post reqs!!!
 def index():
@@ -16,5 +31,8 @@ def index():
     return(render_template("index.html"))
 
 
-app.run(debug=True,port=5001)
+if __name__=='__main__':
+    with app.app_context():
+        db.create_all() #this will create the db file if it doesnt exist!!!
+        app.run(debug=True,port=5001)
 
