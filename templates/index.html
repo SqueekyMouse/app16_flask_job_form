@@ -43,6 +43,16 @@
                     </div>
                 </div>
                 <button class="btn btn-secondary mb-4" type="submit">Submit</button>
+                <!-- jinja codes as middle man b/w python and html page -->
+                {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
             </form>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
